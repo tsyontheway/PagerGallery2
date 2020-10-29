@@ -1,4 +1,4 @@
-package com.example.gallerydemo
+package com.example.pagerGallery
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.example.gallerydemo
+package com.example.pagerGallery
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -35,5 +35,9 @@ data class Pixabay(
 data class PhotoItem(
     @SerializedName("webformatURL") val previewUrl: String,
     @SerializedName("id") val photoId: Int,
-    @SerializedName("largeImageURL") val fullUrl: String
+    @SerializedName("largeImageURL") val fullUrl: String,
+    @SerializedName("webformatHeight") val photoHeight: Int, //解决瀑布流布局的重绘问题
+    @SerializedName("user") val photoUser: String,
+    @SerializedName("likes") val photoLikes: Int,
+    @SerializedName("favorites") val photoFavorites: Int
 ) : Parcelable

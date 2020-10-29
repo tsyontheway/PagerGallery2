@@ -1,4 +1,4 @@
-package com.example.gallerydemo
+package com.example.pagerGallery
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -25,24 +25,43 @@ class GalleryAdapter : ListAdapter<PhotoItem, MyViewHolder>(CallBack) {
 
         holder.itemView.setOnClickListener {
             Bundle().apply {
-                putParcelable("PHOTO", getItem(holder.adapterPosition))
+                putParcelableArrayList("PHOTO_LIST", ArrayList(currentList))
+                putInt("PHOTO_POSITION", holder.adapterPosition)
                 holder.itemView.findNavController()
-                    .navigate(R.id.action_galleryFragment_to_photoFragment, this)
-            }
+                    .navigate(R.id.action_galleryFragment_to_pagerPhotoFragment, this)
 
+            }
         }
         return holder
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.itemView.shimmerLayoutCell.apply {
-            setShimmerColor(0x55FFFFFF)
-            setShimmerAngle(0)
-            startShimmerAnimation()
+        val photoItem = getItem(position)
+        with(holder.itemView) {
+            shimmerLayoutCell.apply {
+                setShimmerColor(0x55FFFFFF)
+                setShimmerAngle(0)
+                startShimmerAnimation()
+            }
+            textViewUser.text = photoItem.photoUser
+            textViewLikes.text = photoItem.photoLikes.toString()
+            textViewFavorites.text = photoItem.photoFavorites.toString()
+            //解决瀑布流布局的图片高度重绘问题，提前从网上拿回图片高度，设定死
+            holder.itemView.imageView.layoutParams.height = photoItem.photoHeight
         }
+
+//        holder.itemView.shimmerLayoutCell.apply {
+//            setShimmerColor(0x55FFFFFF)
+//            setShimmerAngle(0)
+//            startShimmerAnimation()
+//        }
+
+
+        //解决瀑布流布局的图片高度重绘问题，提前从网上拿回图片高度，设定死
+//        holder.itemView.imageView.layoutParams.height = getItem(position).photoHeight
         Glide.with(holder.itemView)
             .load(getItem(position).previewUrl)
-            .placeholder(R.drawable.ic_photo_24)
+            .placeholder(R.drawable.photo_placeholder)
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
