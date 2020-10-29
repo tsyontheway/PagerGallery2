@@ -53,6 +53,9 @@ class PagerPhotoFragment : Fragment() {
             }
         })
         viewPager2.setCurrentItem(arguments?.getInt("PHOTO_POSITION") ?: 0, false)
+        //设置ViewPager2竖直滚动
+        viewPager2.orientation = ViewPager2.ORIENTATION_VERTICAL
+
 
         //检查安卓手机版本号，动态申请权限
         imageViewDownload.setOnClickListener {
